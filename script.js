@@ -7,7 +7,7 @@ const checkoutBtn = document.getElementById("checkout-btn");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const cartCounter = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
-const addressWarner = document.getElementById("address-warner");
+const addressWarn = document.getElementById("address-warn");
 
 let cart = [];
 
@@ -113,3 +113,20 @@ function removeItemCart(name) {
     updateCartModal();
   }
 }
+
+addressInput.addEventListener("input", function (event) {
+  let inputValue = event.target.value;
+  if (inputValue !== "") {
+    addressInput.classList.remove("border-red-500")
+    addressWarn.classList.add('hidden')
+  }
+})
+
+checkoutBtn.addEventListener("click", function () {
+  if (cart.length === 0) return;
+  if (addressInput.value === "") {
+    addressWarn.classList.remove('hidden')
+    addressInput.classList.add("border-red-500")
+    return
+  }
+})
