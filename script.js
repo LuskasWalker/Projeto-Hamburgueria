@@ -53,9 +53,14 @@ function updateCartModal() {
   cartItemsContainer.innerHTML = "";
   let total = 0;
 
-  cart.forEach(item => {
+  cart.forEach((item) => {
     const cartItemElement = document.createElement("div");
-    cartItemElement.classList.add("flex", "justify-between", "mb-4", "flex-col")
+    cartItemElement.classList.add(
+      "flex",
+      "justify-between",
+      "mb-4",
+      "flex-col"
+    );
 
     cartItemElement.innerHTML = `
       <div class="flex items-center justify-between">
@@ -65,19 +70,46 @@ function updateCartModal() {
           <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
         </div>
         
-        <button>
+        <button class="remove-cart-btn" data-name="${item.name}">
           Remover
         </button>
 
       </div>`;
 
-      total += item.price * item.qtd 
+    total += item.price * item.qtd;
 
     cartItemsContainer.appendChild(cartItemElement);
   });
 
   cartTotal.textContent = total.toLocaleString("pt-BR", {
     style: "currency",
-    currency: "BRL"
-  })
+    currency: "BRL",
+  });
+
+  cartCounter.innerHTML = cart.length;
+}
+
+cartItemsContainer.addEventListener("click", function (event) {
+  if (event.target.classList.contains("remove-cart-btn")) {
+    const name = event.target.getAttribute("data-name");
+
+    removeItemCart(name);
+  }
+});
+
+function removeItemCart(name) {
+  const index = cart.findIndex((item) => item.name === name);
+
+  if (index !== -1) {
+    const item = cart[index];
+
+    if (item.qtd > 1) {
+      item.qtd -= 1;
+      updateCartModal();
+      return;
+    }
+
+    cart.splice(index, 1);
+    updateCartModal();
+  }
 }
