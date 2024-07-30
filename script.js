@@ -8,6 +8,7 @@ const closeModalBtn = document.getElementById("close-modal-btn");
 const cartCounter = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
 const addressWarn = document.getElementById("address-warn");
+const time = document.getElementById("time-warn")
 
 let cart = [];
 
@@ -123,6 +124,9 @@ addressInput.addEventListener("input", function (event) {
 })
 
 checkoutBtn.addEventListener("click", function () {
+  const isOpen = checkRestaurantOpen();
+  
+  
   if (cart.length === 0) return;
   if (addressInput.value === "") {
     addressWarn.classList.remove('hidden')
@@ -130,3 +134,24 @@ checkoutBtn.addEventListener("click", function () {
     return
   }
 })
+
+function checkRestaurantOpen(){
+  const data = new Date();
+  const hora = data.getHours();
+  return hora >= 18 && hora < 22;
+}
+
+const spanItem = document.getElementById("date-span")
+const isOpen = checkRestaurantOpen()
+
+if(isOpen){
+  spanItem.classList.remove("bg-red-500")
+  spanItem.classList.add("bg-green-500")
+  time.classList.add("hidden")
+}else{
+  spanItem.classList.remove("bg-green-500")
+  spanItem.classList.add("bg-red-500")
+  time.classList.remove("hidden")
+  checkoutBtn.classList.remove("bg-green-500")
+  checkoutBtn.classList.add("bg-red-500")
+}
