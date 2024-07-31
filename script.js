@@ -125,14 +125,35 @@ addressInput.addEventListener("input", function (event) {
 
 checkoutBtn.addEventListener("click", function () {
   const isOpen = checkRestaurantOpen();
-  
-  
+  if(!isOpen){
+    return
+  }
+
   if (cart.length === 0) return;
   if (addressInput.value === "") {
     addressWarn.classList.remove('hidden')
     addressInput.classList.add("border-red-500")
     return
   }
+
+  const cartItem = cart.map((item) => {
+    return (
+      `${item.qtd}x ${item.name}`
+    )
+  }).join("\n")
+
+  let totalPrice = 0;
+  
+  cart.forEach((item) => {
+    totalPrice += item.qtd * item.price
+  })
+  
+    
+  const message = encodeURIComponent(cartItem)
+  const phone = "556298696268"
+
+  window.open(`https://wa.me/${phone}?text=${message}%0ATotal: R$ ${totalPrice.toFixed(2)}%0AEndereço: ${addressInput.value}`, "_blank")
+
 })
 
 function checkRestaurantOpen(){
