@@ -147,10 +147,9 @@ checkoutBtn.addEventListener("click", function () {
   cart.forEach((item) => {
     totalPrice += item.qtd * item.price
   })
-  
     
   const message = encodeURIComponent(cartItem)
-  const phone = "556298696268"
+  const phone = ""
 
   window.open(`https://wa.me/${phone}?text=${message}%0ATotal: R$ ${totalPrice.toFixed(2)}%0AEndereço: ${addressInput.value}`, "_blank")
 
